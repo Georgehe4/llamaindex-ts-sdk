@@ -400,6 +400,11 @@ export interface ParsingUploadFileParams {
   /**
    * Body param:
    */
+  aggressive_table_extraction?: boolean;
+
+  /**
+   * Body param:
+   */
   annotate_links?: boolean;
 
   /**
@@ -645,6 +650,11 @@ export interface ParsingUploadFileParams {
   /**
    * Body param:
    */
+  keep_page_separator_when_merging_tables?: boolean;
+
+  /**
+   * Body param:
+   */
   language?: Array<ParserLanguages>;
 
   /**
@@ -756,6 +766,11 @@ export interface ParsingUploadFileParams {
    * Body param:
    */
   premium_mode?: boolean;
+
+  /**
+   * Body param:
+   */
+  presentation_out_of_bounds_content?: boolean;
 
   /**
    * Body param:

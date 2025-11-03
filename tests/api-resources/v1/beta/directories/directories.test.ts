@@ -7,14 +7,10 @@ const client = new LlamacloudProd({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource result', () => {
-  test('getImage: required and optional params', async () => {
-    const response = await client.parsing.job.result.getImage('name', { job_id: 'job_id' });
-  });
-
+describe('resource directories', () => {
   // Prism tests are disabled
-  test.skip('getJson', async () => {
-    const responsePromise = client.parsing.job.result.getJson('job_id');
+  test.skip('create: only required params', async () => {
+    const responsePromise = client.v1.beta.directories.create({ name: 'x' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -25,20 +21,46 @@ describe('resource result', () => {
   });
 
   // Prism tests are disabled
-  test.skip('getJson: request options and params are passed correctly', async () => {
+  test.skip('create: required and optional params', async () => {
+    const response = await client.v1.beta.directories.create({
+      name: 'x',
+      organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      project_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      data_source_id: 'data_source_id',
+      description: 'description',
+    });
+  });
+
+  // Prism tests are disabled
+  test.skip('retrieve', async () => {
+    const responsePromise = client.v1.beta.directories.retrieve('directory_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('retrieve: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.parsing.job.result.getJson(
-        'job_id',
-        { organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
+      client.v1.beta.directories.retrieve(
+        'directory_id',
+        {
+          organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          project_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(LlamacloudProd.NotFoundError);
   });
 
   // Prism tests are disabled
-  test.skip('getMarkdown', async () => {
-    const responsePromise = client.parsing.job.result.getMarkdown('job_id');
+  test.skip('update', async () => {
+    const responsePromise = client.v1.beta.directories.update('directory_id', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -49,20 +71,39 @@ describe('resource result', () => {
   });
 
   // Prism tests are disabled
-  test.skip('getMarkdown: request options and params are passed correctly', async () => {
+  test.skip('list', async () => {
+    const responsePromise = client.v1.beta.directories.list();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.parsing.job.result.getMarkdown(
-        'job_id',
-        { organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
+      client.v1.beta.directories.list(
+        {
+          data_source_id: 'data_source_id',
+          include_deleted: true,
+          name: 'name',
+          organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          page_size: 0,
+          page_token: 'page_token',
+          project_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(LlamacloudProd.NotFoundError);
   });
 
   // Prism tests are disabled
-  test.skip('getPdf', async () => {
-    const responsePromise = client.parsing.job.result.getPdf('job_id');
+  test.skip('delete', async () => {
+    const responsePromise = client.v1.beta.directories.delete('directory_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -73,62 +114,17 @@ describe('resource result', () => {
   });
 
   // Prism tests are disabled
-  test.skip('getStructured', async () => {
-    const responsePromise = client.parsing.job.result.getStructured('job_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Prism tests are disabled
-  test.skip('getStructured: request options and params are passed correctly', async () => {
+  test.skip('delete: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.parsing.job.result.getStructured(
-        'job_id',
-        { organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
+      client.v1.beta.directories.delete(
+        'directory_id',
+        {
+          organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          project_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(LlamacloudProd.NotFoundError);
-  });
-
-  // Prism tests are disabled
-  test.skip('getText', async () => {
-    const responsePromise = client.parsing.job.result.getText('job_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Prism tests are disabled
-  test.skip('getText: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.parsing.job.result.getText(
-        'job_id',
-        { organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(LlamacloudProd.NotFoundError);
-  });
-
-  // Prism tests are disabled
-  test.skip('getXlsx', async () => {
-    const responsePromise = client.parsing.job.result.getXlsx('job_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
   });
 });

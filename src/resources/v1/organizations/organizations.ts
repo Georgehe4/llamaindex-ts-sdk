@@ -2,7 +2,7 @@
 
 import { APIResource } from '../../../core/resource';
 import * as DefaultAPI from './default';
-import { Default, DefaultCreateParams } from './default';
+import { Default } from './default';
 import * as UsersAPI from './users/users';
 import {
   UserCreateParams,
@@ -10,7 +10,6 @@ import {
   UserDeleteParams,
   UserListResponse,
   UserOrganization,
-  UserUpdateRemoveParams,
   Users,
 } from './users/users';
 import { APIPromise } from '../../../core/api-promise';
@@ -23,10 +22,10 @@ export class Organizations extends APIResource {
   users: UsersAPI.Users = new UsersAPI.Users(this._client);
 
   /**
-   * Upsert a new organization.
+   * Create a new organization.
    */
   create(body: OrganizationCreateParams, options?: RequestOptions): APIPromise<Organization> {
-    return this._client.put('/api/v1/organizations', { body, ...options });
+    return this._client.post('/api/v1/organizations', { body, ...options });
   }
 
   /**
@@ -454,7 +453,7 @@ export declare namespace Organizations {
     type OrganizationRetrieveUsageParams as OrganizationRetrieveUsageParams,
   };
 
-  export { Default as Default, type DefaultCreateParams as DefaultCreateParams };
+  export { Default as Default };
 
   export {
     Users as Users,
@@ -463,6 +462,5 @@ export declare namespace Organizations {
     type UserListResponse as UserListResponse,
     type UserCreateParams as UserCreateParams,
     type UserDeleteParams as UserDeleteParams,
-    type UserUpdateRemoveParams as UserUpdateRemoveParams,
   };
 }

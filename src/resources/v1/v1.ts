@@ -82,6 +82,8 @@ import {
   RetrieverUpsertParams,
   Retrievers,
 } from './retrievers';
+import * as TestAPI from './test';
+import { Test, TestStreamResponse } from './test';
 import * as ValidateIntegrationsAPI from './validate-integrations';
 import {
   AzureOpenAIEmbeddingConfig,
@@ -142,12 +144,8 @@ import {
   FileDeleteParams,
   FileGeneratePresignedURLParams,
   FileGeneratePresignedURLResponse,
-  FileListParams,
-  FileListResponse,
   FileReadContentParams,
   FileRetrieveParams,
-  FileSyncParams,
-  FileSyncResponse,
   FileUploadFromURLParams,
   FileUploadParams,
   Files,
@@ -202,9 +200,7 @@ import {
   PipelineMetadataConfig,
   PipelineRetrieveFiles2Params,
   PipelineRetrieveFiles2Response,
-  PipelineRetrieveParams,
   PipelineRetrievePlaygroundSessionResponse,
-  PipelineRetrieveResponse,
   PipelineRetrieveStatusParams,
   PipelineType,
   PipelineUpdateParams,
@@ -236,6 +232,7 @@ export class V1 extends APIResource {
   billing: BillingAPI.Billing = new BillingAPI.Billing(this._client);
   extraction: ExtractionAPI.Extraction = new ExtractionAPI.Extraction(this._client);
   beta: BetaAPI.Beta = new BetaAPI.Beta(this._client);
+  test: TestAPI.Test = new TestAPI.Test(this._client);
 
   /**
    * Get jobs for a project.
@@ -434,6 +431,8 @@ export namespace V1GetJobsResponse {
 
         adaptive_long_table?: boolean | null;
 
+        aggressive_table_extraction?: boolean | null;
+
         annotate_links?: boolean | null;
 
         auto_mode?: boolean | null;
@@ -549,6 +548,8 @@ export namespace V1GetJobsResponse {
 
         job_timeout_in_seconds?: number | null;
 
+        keep_page_separator_when_merging_tables?: boolean | null;
+
         languages?: Array<ParsingAPI.ParserLanguages>;
 
         layout_aware?: boolean | null;
@@ -616,6 +617,8 @@ export namespace V1GetJobsResponse {
         precise_bounding_box?: boolean | null;
 
         premium_mode?: boolean | null;
+
+        presentation_out_of_bounds_content?: boolean | null;
 
         preserve_layout_alignment_across_pages?: boolean | null;
 
@@ -1113,6 +1116,11 @@ export namespace V1GetJobsResponse {
         premiumMode?: boolean;
 
         /**
+         * If true, LlamaParse will extract out of bounds content in presentation slides.
+         */
+        presentationOutOfBoundsContent?: boolean;
+
+        /**
          * Whether to preserve layout alignment across pages.
          */
         preserveLayoutAlignmentAcrossPages?: boolean;
@@ -1469,6 +1477,7 @@ V1.Auth = Auth;
 V1.Billing = Billing;
 V1.Extraction = Extraction;
 V1.Beta = Beta;
+V1.Test = Test;
 
 export declare namespace V1 {
   export {
@@ -1590,15 +1599,11 @@ export declare namespace V1 {
     type File as File,
     type FileCreate as FileCreate,
     type PresignedURL as PresignedURL,
-    type FileListResponse as FileListResponse,
     type FileGeneratePresignedURLResponse as FileGeneratePresignedURLResponse,
-    type FileSyncResponse as FileSyncResponse,
     type FileRetrieveParams as FileRetrieveParams,
-    type FileListParams as FileListParams,
     type FileDeleteParams as FileDeleteParams,
     type FileGeneratePresignedURLParams as FileGeneratePresignedURLParams,
     type FileReadContentParams as FileReadContentParams,
-    type FileSyncParams as FileSyncParams,
     type FileUploadParams as FileUploadParams,
     type FileUploadFromURLParams as FileUploadFromURLParams,
   };
@@ -1621,13 +1626,11 @@ export declare namespace V1 {
     type PresetRetrievalParams as PresetRetrievalParams,
     type RetrievalMode as RetrievalMode,
     type SparseModelConfig as SparseModelConfig,
-    type PipelineRetrieveResponse as PipelineRetrieveResponse,
     type PipelineListResponse as PipelineListResponse,
     type PipelineChatResponse as PipelineChatResponse,
     type PipelineRetrieveFiles2Response as PipelineRetrieveFiles2Response,
     type PipelineRetrievePlaygroundSessionResponse as PipelineRetrievePlaygroundSessionResponse,
     type PipelineCreateParams as PipelineCreateParams,
-    type PipelineRetrieveParams as PipelineRetrieveParams,
     type PipelineUpdateParams as PipelineUpdateParams,
     type PipelineListParams as PipelineListParams,
     type PipelineChatParams as PipelineChatParams,
@@ -1690,4 +1693,6 @@ export declare namespace V1 {
     type BetaRetrieveQuotaManagementResponse as BetaRetrieveQuotaManagementResponse,
     type BetaRetrieveQuotaManagementParams as BetaRetrieveQuotaManagementParams,
   };
+
+  export { Test as Test, type TestStreamResponse as TestStreamResponse };
 }

@@ -109,6 +109,11 @@ export interface SpreadsheetJob {
    * All extracted tables (populated when job is complete)
    */
   tables?: Array<SpreadsheetJob.Table>;
+
+  /**
+   * Metadata for each processed worksheet (populated when job is complete)
+   */
+  worksheet_metadata?: Array<SpreadsheetJob.WorksheetMetadata>;
 }
 
 export namespace SpreadsheetJob {
@@ -136,14 +141,52 @@ export namespace SpreadsheetJob {
      */
     table_id?: string;
   }
+
+  /**
+   * Metadata about a worksheet in a spreadsheet
+   */
+  export interface WorksheetMetadata {
+    /**
+     * Name of the worksheet
+     */
+    sheet_name: string;
+
+    /**
+     * Generated description of the worksheet
+     */
+    description?: string | null;
+
+    /**
+     * Generated title for the worksheet
+     */
+    title?: string | null;
+  }
 }
 
 /**
- * Configuration for spreadsheet parsing
+ * Configuration for spreadsheet parsing and table extraction
  */
 export interface SpreadsheetParsingConfig {
   /**
-   * The names of the sheets to parse. If empty, all sheets will be parsed.
+   * A1 notation of the range to extract a single table from. If None, the entire
+   * sheet is used.
+   */
+  extraction_range?: string | null;
+
+  /**
+   * Whether to generate additional metadata (title, description) for each extracted
+   * table.
+   */
+  generate_additional_metadata?: boolean;
+
+  /**
+   * Whether to include hidden cells when extracting tables from the spreadsheet.
+   */
+  include_hidden_cells?: boolean;
+
+  /**
+   * The names of the sheets to extract tables from. If empty, the default sheet is
+   * extracted.
    */
   sheet_names?: Array<string> | null;
 }

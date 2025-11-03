@@ -21,16 +21,6 @@ import {
   APIKeyRetrieveAPIKeysResponse,
   APIKeys,
 } from './api-keys';
-import * as BatchesAPI from './batches';
-import {
-  Batch,
-  BatchCreateParams,
-  BatchListParams,
-  BatchListResponse,
-  BatchRetrieveParams,
-  BatchRetrieveResponse,
-  Batches,
-} from './batches';
 import * as FilesAPI from './files';
 import { FileCreateParams, FileDeleteParams, FileQueryParams, FileQueryResponse, Files } from './files';
 import * as ParseConfigurationsAPI from './parse-configurations';
@@ -48,6 +38,19 @@ import {
   ParseConfigurationUpdateParseConfigurationsParams,
   ParseConfigurations,
 } from './parse-configurations';
+import * as DirectoriesAPI from './directories/directories';
+import {
+  Directories,
+  DirectoryCreateParams,
+  DirectoryCreateResponse,
+  DirectoryDeleteParams,
+  DirectoryListParams,
+  DirectoryListResponse,
+  DirectoryRetrieveParams,
+  DirectoryRetrieveResponse,
+  DirectoryUpdateParams,
+  DirectoryUpdateResponse,
+} from './directories/directories';
 import * as SpreadsheetAPI from './spreadsheet/spreadsheet';
 import { Spreadsheet } from './spreadsheet/spreadsheet';
 import { APIPromise } from '../../../core/api-promise';
@@ -55,12 +58,12 @@ import { RequestOptions } from '../../../internal/request-options';
 
 export class Beta extends APIResource {
   apiKeys: APIKeysAPI.APIKeys = new APIKeysAPI.APIKeys(this._client);
-  batches: BatchesAPI.Batches = new BatchesAPI.Batches(this._client);
   agentData: AgentDataAPI.AgentData = new AgentDataAPI.AgentData(this._client);
   files: FilesAPI.Files = new FilesAPI.Files(this._client);
   parseConfigurations: ParseConfigurationsAPI.ParseConfigurations =
     new ParseConfigurationsAPI.ParseConfigurations(this._client);
   spreadsheet: SpreadsheetAPI.Spreadsheet = new SpreadsheetAPI.Spreadsheet(this._client);
+  directories: DirectoriesAPI.Directories = new DirectoriesAPI.Directories(this._client);
 
   /**
    * Retrieve a paginated list of quota configurations with optional filtering.
@@ -103,7 +106,8 @@ export namespace BetaRetrieveQuotaManagementResponse {
       | 'rate_limit_parse_concurrent_default'
       | 'rate_limit_concurrent_jobs_in_execution_default'
       | 'rate_limit_concurrent_jobs_in_execution_doc_ingest'
-      | 'limit_embedding_character';
+      | 'limit_embedding_character'
+      | 'limit_files_per_index';
 
     /**
      * The quota configuration value
@@ -190,10 +194,10 @@ export interface BetaRetrieveQuotaManagementParams {
 }
 
 Beta.APIKeys = APIKeys;
-Beta.Batches = Batches;
 Beta.Files = Files;
 Beta.ParseConfigurations = ParseConfigurations;
 Beta.Spreadsheet = Spreadsheet;
+Beta.Directories = Directories;
 
 export declare namespace Beta {
   export {
@@ -206,16 +210,6 @@ export declare namespace Beta {
     type APIKeyRetrieveAPIKeysResponse as APIKeyRetrieveAPIKeysResponse,
     type APIKeyAPIKeysParams as APIKeyAPIKeysParams,
     type APIKeyRetrieveAPIKeysParams as APIKeyRetrieveAPIKeysParams,
-  };
-
-  export {
-    Batches as Batches,
-    type Batch as Batch,
-    type BatchRetrieveResponse as BatchRetrieveResponse,
-    type BatchListResponse as BatchListResponse,
-    type BatchCreateParams as BatchCreateParams,
-    type BatchRetrieveParams as BatchRetrieveParams,
-    type BatchListParams as BatchListParams,
   };
 
   export {
@@ -255,4 +249,17 @@ export declare namespace Beta {
   };
 
   export { Spreadsheet as Spreadsheet };
+
+  export {
+    Directories as Directories,
+    type DirectoryCreateResponse as DirectoryCreateResponse,
+    type DirectoryRetrieveResponse as DirectoryRetrieveResponse,
+    type DirectoryUpdateResponse as DirectoryUpdateResponse,
+    type DirectoryListResponse as DirectoryListResponse,
+    type DirectoryCreateParams as DirectoryCreateParams,
+    type DirectoryRetrieveParams as DirectoryRetrieveParams,
+    type DirectoryUpdateParams as DirectoryUpdateParams,
+    type DirectoryListParams as DirectoryListParams,
+    type DirectoryDeleteParams as DirectoryDeleteParams,
+  };
 }

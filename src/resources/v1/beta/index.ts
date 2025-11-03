@@ -19,19 +19,22 @@ export {
   type AgentDataSearchParams,
 } from './agent-data';
 export {
-  Batches,
-  type Batch,
-  type BatchRetrieveResponse,
-  type BatchListResponse,
-  type BatchCreateParams,
-  type BatchRetrieveParams,
-  type BatchListParams,
-} from './batches';
-export {
   Beta,
   type BetaRetrieveQuotaManagementResponse,
   type BetaRetrieveQuotaManagementParams,
 } from './beta';
+export {
+  Directories,
+  type DirectoryCreateResponse,
+  type DirectoryRetrieveResponse,
+  type DirectoryUpdateResponse,
+  type DirectoryListResponse,
+  type DirectoryCreateParams,
+  type DirectoryRetrieveParams,
+  type DirectoryUpdateParams,
+  type DirectoryListParams,
+  type DirectoryDeleteParams,
+} from './directories/index';
 export {
   Files,
   type FileQueryResponse,

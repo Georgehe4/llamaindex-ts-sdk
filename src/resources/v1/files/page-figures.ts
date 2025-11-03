@@ -8,7 +8,7 @@ import { path } from '../../../internal/utils/path';
 
 export class PageFigures extends APIResource {
   /**
-   * Get File Page Figure
+   * Get a specific figure from a page of a file.
    */
   retrieve(
     figureName: string,
@@ -23,15 +23,14 @@ export class PageFigures extends APIResource {
   }
 
   /**
-   * List File Page Figures
+   * List metadata for all figures from all pages of a file.
    */
   list(
-    pageIndex: number,
-    params: PageFigureListParams,
+    id: string,
+    query: PageFigureListParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<PageFigureListResponse> {
-    const { id, ...query } = params;
-    return this._client.get(path`/api/v1/files/${id}/page-figures/${pageIndex}`, { query, ...options });
+    return this._client.get(path`/api/v1/files/${id}/page-figures`, { query, ...options });
   }
 
   /**
@@ -118,19 +117,8 @@ export interface PageFigureRetrieveParams {
 }
 
 export interface PageFigureListParams {
-  /**
-   * Path param:
-   */
-  id: string;
-
-  /**
-   * Query param:
-   */
   organization_id?: string | null;
 
-  /**
-   * Query param:
-   */
   project_id?: string | null;
 }
 

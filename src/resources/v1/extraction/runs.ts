@@ -41,6 +41,17 @@ export class Runs extends APIResource {
   }
 
   /**
+   * Get Run By Job Id
+   */
+  retrieveByJob(
+    jobID: string,
+    query: RunRetrieveByJobParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ExtractRun> {
+    return this._client.get(path`/api/v1/extraction/runs/by-job/${jobID}`, { query, ...options });
+  }
+
+  /**
    * Get Latest Run From Ui
    */
   retrieveLatestFromUi(
@@ -96,7 +107,7 @@ export interface ExtractConfig {
   /**
    * The extraction target specified.
    */
-  extraction_target?: 'PER_DOC' | 'PER_PAGE';
+  extraction_target?: 'PER_DOC' | 'PER_PAGE' | 'PER_TABLE_ROW';
 
   /**
    * Whether to use high resolution mode for the extraction.
@@ -145,6 +156,7 @@ export interface ExtractConfig {
     | 'anthropic-sonnet-3.7'
     | 'anthropic-sonnet-4.0'
     | 'anthropic-sonnet-4.5'
+    | 'anthropic-haiku-4.5'
     | 'gemini-2.5-flash'
     | 'gemini-2.5-pro'
     | 'gemini-2.0-flash'
@@ -300,6 +312,12 @@ export interface RunDeleteParams {
   project_id?: string | null;
 }
 
+export interface RunRetrieveByJobParams {
+  organization_id?: string | null;
+
+  project_id?: string | null;
+}
+
 export interface RunRetrieveLatestFromUiParams {
   extraction_agent_id: string;
 }
@@ -313,6 +331,7 @@ export declare namespace Runs {
     type RunRetrieveParams as RunRetrieveParams,
     type RunListParams as RunListParams,
     type RunDeleteParams as RunDeleteParams,
+    type RunRetrieveByJobParams as RunRetrieveByJobParams,
     type RunRetrieveLatestFromUiParams as RunRetrieveLatestFromUiParams,
   };
 }
